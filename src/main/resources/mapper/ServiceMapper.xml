@@ -68,7 +68,7 @@
     ) AS r ON service.id = r.service_id
     LEFT JOIN (
     SELECT
-    SUM( `order`.service_id ) AS order_total,
+    COUNT( `order`.service_id ) AS order_total,
     `order`.service_id
     FROM
     `order`,
