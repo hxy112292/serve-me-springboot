@@ -31,19 +31,26 @@ public class UserServiceImpl implements UserService {
     public User createUser(User user) {
 
         User userDto = new User();
-        userDto.setUsername(user.getUsername());
-        userDto = userMapper.findAccount(userDto);
-        Preconditions.checkArgument((userDto==null), ErrorMessage.USERNAME_EXIST);
 
-        userDto = new User();
-        userDto.setEmail(user.getEmail());
-        userDto = userMapper.findAccount(userDto);
-        Preconditions.checkArgument((userDto==null), ErrorMessage.EMAIL_EXIST);
+        if(user.getUsername() != null) {
+            userDto.setUsername(user.getUsername());
+            userDto = userMapper.findAccount(userDto);
+            Preconditions.checkArgument((userDto == null), ErrorMessage.USERNAME_EXIST);
+        }
 
-        userDto = new User();
-        userDto.setPhone(user.getPhone());
-        userDto = userMapper.findAccount(userDto);
-        Preconditions.checkArgument((userDto==null), ErrorMessage.PHONE_EXIST);
+        if(user.getEmail() != null) {
+            userDto = new User();
+            userDto.setEmail(user.getEmail());
+            userDto = userMapper.findAccount(userDto);
+            Preconditions.checkArgument((userDto==null), ErrorMessage.EMAIL_EXIST);
+        }
+
+        if(user.getPhone() != null) {
+            userDto = new User();
+            userDto.setPhone(user.getPhone());
+            userDto = userMapper.findAccount(userDto);
+            Preconditions.checkArgument((userDto == null), ErrorMessage.PHONE_EXIST);
+        }
 
         userMapper.insert(user);
         user = findUserById(user.getId());
