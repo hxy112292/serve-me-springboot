@@ -55,7 +55,7 @@
     service
     LEFT JOIN (
     SELECT
-    AVG( review.star ) as star_total,
+    ROUND(AVG( review.star )) as star_total,
     review.service_id
     FROM
     review,
