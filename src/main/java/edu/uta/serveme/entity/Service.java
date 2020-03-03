@@ -22,7 +22,17 @@ public class Service implements Serializable {
 
     private BigDecimal price;
 
+    private Integer orderTotal;
+
     private static final long serialVersionUID = 1L;
+
+    public Integer getOrderTotal() {
+        return orderTotal;
+    }
+
+    public void setOrderTotal(Integer orderTotal) {
+        this.orderTotal = orderTotal;
+    }
 
     public String getUsername() {
         return username;
