@@ -12,6 +12,8 @@ public class Review implements Serializable {
 
     private Integer customerId;
 
+    private String customerName;
+
     private Integer serviceId;
 
     private Integer star;
@@ -23,6 +25,18 @@ public class Review implements Serializable {
     private Date updateTime;
 
     private static final long serialVersionUID = 1L;
+
+    public String getCustomerName() {
+        return customerName;
+    }
+
+    public void setCustomerName(String customerName) {
+        this.customerName = customerName;
+    }
+
+    public static long getSerialVersionUID() {
+        return serialVersionUID;
+    }
 
     public Integer getId() {
         return id;
