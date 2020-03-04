@@ -35,7 +35,7 @@ public class UserServiceImpl implements UserService {
         if(user.getUsername() != null) {
             userDto.setUsername(user.getUsername());
             userDto = userMapper.findAccount(userDto);
-            if(userDto.getRole() != null && userDto.getRole().equals(Constant.GUEST)) {
+            if(userDto != null && userDto.getRole() != null && userDto.getRole().equals(Constant.GUEST)) {
 
             } else {
                 Preconditions.checkArgument((userDto == null), ErrorMessage.USERNAME_EXIST);
@@ -46,7 +46,7 @@ public class UserServiceImpl implements UserService {
             userDto = new User();
             userDto.setEmail(user.getEmail());
             userDto = userMapper.findAccount(userDto);
-            if(userDto.getRole() != null && userDto.getRole().equals(Constant.GUEST)) {
+            if(userDto != null && userDto.getRole() != null && userDto.getRole().equals(Constant.GUEST)) {
 
             } else {
                 Preconditions.checkArgument((userDto==null), ErrorMessage.EMAIL_EXIST);
@@ -57,7 +57,7 @@ public class UserServiceImpl implements UserService {
             userDto = new User();
             userDto.setPhone(user.getPhone());
             userDto = userMapper.findAccount(userDto);
-            if(userDto.getRole() != null && userDto.getRole().equals(Constant.GUEST)) {
+            if(userDto != null && userDto.getRole() != null && userDto.getRole().equals(Constant.GUEST)) {
 
             } else {
                 Preconditions.checkArgument((userDto == null), ErrorMessage.PHONE_EXIST);
