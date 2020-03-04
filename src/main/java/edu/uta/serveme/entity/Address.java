@@ -14,6 +14,8 @@ public class Address implements Serializable {
 
     private String address;
 
+    private String zipCode;
+
     private Date createTime;
 
     private Date updateTime;
@@ -58,6 +60,14 @@ public class Address implements Serializable {
 
     public void setAddress(String address) {
         this.address = address == null ? null : address.trim();
+    }
+
+    public String getZipCode() {
+        return zipCode;
+    }
+
+    public void setZipCode(String zipCode) {
+        this.zipCode = zipCode == null ? null : zipCode.trim();
     }
 
     public Date getCreateTime() {
