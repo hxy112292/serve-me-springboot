@@ -129,7 +129,11 @@
 <!--               enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">-->
 <!--            <generatedKey column="id" sqlStatement="MySql" identity="true"/>-->
 <!--        </table>-->
-        <table tableName="setting" enableCountByExample="false" enableUpdateByExample="false"
+<!--        <table tableName="setting" enableCountByExample="false" enableUpdateByExample="false"-->
+<!--               enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">-->
+<!--            <generatedKey column="id" sqlStatement="MySql" identity="true"/>-->
+<!--        </table>-->
+        <table tableName="address" enableCountByExample="false" enableUpdateByExample="false"
                enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
         </table>
