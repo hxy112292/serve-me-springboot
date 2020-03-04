@@ -6,7 +6,7 @@
     <result column="customer_id" jdbcType="INTEGER" property="customerId" />
     <result column="vendor_id" jdbcType="INTEGER" property="vendorId" />
     <result column="service_id" jdbcType="VARCHAR" property="serviceId" />
-    <result column="address" jdbcType="VARCHAR" property="address" />
+    <result column="address_id" jdbcType="INTEGER" property="addressId" />
     <result column="price" jdbcType="DECIMAL" property="price" />
     <result column="date_start" jdbcType="TIMESTAMP" property="dateStart" />
     <result column="date_end" jdbcType="TIMESTAMP" property="dateEnd" />
@@ -20,20 +20,22 @@
     <result column="type" jdbcType="VARCHAR" property="serviceType" />
     <result column="customer_name" jdbcType="VARCHAR" property="customerName" />
     <result column="customer_phone" jdbcType="VARCHAR" property="customerPhone" />
+    <result column="address" jdbcType="VARCHAR" property="address" />
     <result column="vendor_name" jdbcType="VARCHAR" property="vendorName" />
     <result column="vendor_phone" jdbcType="VARCHAR" property="vendorPhone" />
     <result column="star" jdbcType="INTEGER" property="star" />
   </resultMap>
   <sql id="Base_Column_List">
-    `order`.id, `order`.customer_id, `order`.vendor_id, `order`.service_id, `order`.address, `order`.price, `order`.date_start,
+    `order`.id, `order`.customer_id, `order`.vendor_id, `order`.service_id, `order`.address_id, `order`.price, `order`.date_start,
     `order`.date_end, `order`.status, `order`.create_time, `order`.update_time, `order`.cost_no_off, `order`.cost_off
   </sql>
   <sql id="Blob_Column_List">
     service.type
   </sql>
   <sql id="Customer_Column_List">
-    customer.username AS customer_name,
-	customer.phone AS customer_phone
+    customer.customer_name,
+	customer.phone AS customer_phone,
+	customer.address As address
   </sql>
   <sql id="Vendor_Column_List">
     vendor.username AS vendor_name,
@@ -67,17 +69,19 @@
     ) AS vendor ON `order`.vendor_id = vendor.id
     LEFT JOIN (
     SELECT
-    `user`.id,
-    `user`.username,
-    `user`.phone
+    `address`.id AS address_id,
+    `address`.user_id,
+    `address`.customer_name,
+    `address`.phone,
+    `address`.address
     FROM
-    `user`,
+    `address`,
     `order`
     WHERE
-    `user`.id = `order`.customer_id
+    `address`.id = `order`.address_id
     GROUP BY
-    `user`.id
-    ) AS customer ON `order`.customer_id = customer.id
+    `address`.id
+    ) AS customer ON `order`.address_id = customer.address_id
     LEFT JOIN (
     SELECT
     `order`.id,
@@ -114,17 +118,19 @@
     ) AS vendor ON `order`.vendor_id = vendor.id
     LEFT JOIN (
     SELECT
-    `user`.id,
-    `user`.username,
-    `user`.phone
+    `address`.id AS address_id,
+    `address`.user_id,
+    `address`.customer_name,
+    `address`.phone,
+    `address`.address
     FROM
-    `user`,
+    `address`,
     `order`
     WHERE
-    `user`.id = `order`.customer_id
+    `address`.id = `order`.address_id
     GROUP BY
-    `user`.id
-    ) AS customer ON `order`.customer_id = customer.id
+    `address`.id
+    ) AS customer ON `order`.address_id = customer.address_id
     LEFT JOIN (
     SELECT
     `order`.id,
@@ -151,12 +157,12 @@
       SELECT LAST_INSERT_ID()
     </selectKey>
     insert into `order` (customer_id, vendor_id, service_id,
-      address, price, date_start, 
+      address_id, price, date_start,
       date_end, cost_no_off, cost_off, 
       status, create_time, update_time
       )
     values (#{customerId,jdbcType=INTEGER}, #{vendorId,jdbcType=INTEGER}, #{serviceId,jdbcType=VARCHAR}, 
-      #{address,jdbcType=VARCHAR}, #{price,jdbcType=DECIMAL}, #{dateStart,jdbcType=TIMESTAMP}, 
+      #{addressId,jdbcType=INTEGER}, #{price,jdbcType=DECIMAL}, #{dateStart,jdbcType=TIMESTAMP},
       #{dateEnd,jdbcType=TIMESTAMP}, #{costNoOff,jdbcType=DECIMAL}, #{costOff,jdbcType=DECIMAL}, 
       #{status,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}
       )
@@ -176,8 +182,8 @@
       <if test="serviceId != null">
         service_id,
       </if>
-      <if test="address != null">
-        address,
+      <if test="addressId != null">
+        address_id,
       </if>
       <if test="price != null">
         price,
@@ -214,8 +220,8 @@
       <if test="serviceId != null">
         #{serviceId,jdbcType=VARCHAR},
       </if>
-      <if test="address != null">
-        #{address,jdbcType=VARCHAR},
+      <if test="addressId != null">
+        #{addressId,jdbcType=INTEGER},
       </if>
       <if test="price != null">
         #{price,jdbcType=DECIMAL},
@@ -255,8 +261,8 @@
       <if test="serviceId != null">
         service_id = #{serviceId,jdbcType=VARCHAR},
       </if>
-      <if test="address != null">
-        address = #{address,jdbcType=VARCHAR},
+      <if test="addressId != null">
+        address_id = #{addressId,jdbcType=INTEGER},
       </if>
       <if test="price != null">
         price = #{price,jdbcType=DECIMAL},
@@ -290,7 +296,7 @@
     set customer_id = #{customerId,jdbcType=INTEGER},
       vendor_id = #{vendorId,jdbcType=INTEGER},
       service_id = #{serviceId,jdbcType=VARCHAR},
-      address = #{address,jdbcType=VARCHAR},
+      address_id = #{addressId,jdbcType=INTEGER},
       price = #{price,jdbcType=DECIMAL},
       date_start = #{dateStart,jdbcType=TIMESTAMP},
       date_end = #{dateEnd,jdbcType=TIMESTAMP},

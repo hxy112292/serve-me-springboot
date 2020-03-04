@@ -23,6 +23,8 @@ public class Order implements Serializable {
 
     private String serviceType;
 
+    private Integer addressId;
+
     private String address;
 
     private BigDecimal price;
@@ -44,6 +46,14 @@ public class Order implements Serializable {
     private Date updateTime;
 
     private static final long serialVersionUID = 1L;
+
+    public Integer getAddressId() {
+        return addressId;
+    }
+
+    public void setAddressId(Integer addressId) {
+        this.addressId = addressId;
+    }
 
     public Integer getStar() {
         return star;
