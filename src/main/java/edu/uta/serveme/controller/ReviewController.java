@@ -29,6 +29,19 @@ public class ReviewController {
         return new ResultResponse<>(reviewService.findReviewBySelective(review));
     }
 
+    @GetMapping(value = "/findReviewsByOrderId")
+    public BaseResponse<Review> searchReviewByOrder(@RequestParam("orderId") Integer orderId) {
+
+        Review review = new Review();
+        review.setOrderId(orderId);
+
+        List<Review> reviewList = reviewService.findReviewBySelective(review);
+        if(reviewList != null && reviewList.size() != 0) {
+            review = reviewList.get(0);
+        }
+        return new ResultResponse<>(review);
+    }
+
     @PostMapping(value = "/insert")
     public BaseResponse<Integer> insertReview(@RequestBody Review review) {
 
