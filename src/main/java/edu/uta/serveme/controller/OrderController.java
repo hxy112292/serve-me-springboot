@@ -46,14 +46,9 @@ public class OrderController {
     }
 
     @GetMapping(value = "/findBidByVendor")
-    public BaseResponse<List<Order>> findBidByVendor(@RequestParam("city") String city, @RequestParam("serviceType") String serviceType) {
+    public BaseResponse<List<Order>> findBidByVendor(@RequestParam("vendorId") Integer vendorId) {
 
-        Order order = new Order();
-        order.setCity(city);
-        order.setServiceType(serviceType);
-        order.setStatus(Constant.ORDER_STATUS_BIDING);
-
-        return new ResultResponse<>(orderService.findOrderBySelective(order));
+        return new ResultResponse<>(orderService.findBidByVendor(vendorId));
     }
 
     @PostMapping(value = "/insert")

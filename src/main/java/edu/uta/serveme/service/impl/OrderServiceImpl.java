@@ -91,4 +91,9 @@ public class OrderServiceImpl implements OrderService {
         point.setCreateTime(new Date());
         pointMapper.insert(point);
     }
+
+    @Override
+    public List<Order> findBidByVendor(int vendorId) {
+        return orderMapper.findBidByVendor(vendorId);
+    }
 }

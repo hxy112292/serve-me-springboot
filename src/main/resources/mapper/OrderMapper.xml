@@ -152,6 +152,34 @@
     </if>
     order by `order`.create_time desc
   </select>
+  <select id="findBidByVendor" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+    SELECT
+    <include refid="Base_Column_List" />,
+    <include refid="Customer_Column_List" />
+    FROM
+    service,
+    `order`
+    LEFT JOIN (
+    SELECT
+    `address`.id AS address_id,
+    `address`.user_id,
+    `address`.customer_name,
+    `address`.phone,
+    `address`.address
+    FROM
+    `address`,
+    `order`
+    WHERE
+    `address`.id = `order`.address_id
+    GROUP BY
+    `address`.id
+    ) AS customer ON `order`.address_id = customer.address_id
+    WHERE
+    `order`.city = service.city
+    AND `order`.service_type = service.type
+    AND `order`.STATUS = "BIDING"
+    AND `service`.vendor_id = #{vendorId, jdbcType=INTEGER}
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from `order`
     where id = #{id,jdbcType=INTEGER}

@@ -18,4 +18,6 @@ public interface OrderService {
     int deleteOrder(int id);
 
     Order findOrderById(int id);
+
+    List<Order> findBidByVendor(int vendorId);
 }

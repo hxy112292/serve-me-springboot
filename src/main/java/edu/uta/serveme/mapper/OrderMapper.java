@@ -23,4 +23,6 @@ public interface OrderMapper {
     int updateByPrimaryKey(Order record);
 
     List<Order> findOrderBySelective(Order order);
+
+    List<Order> findBidByVendor(int vendorId);
 }
