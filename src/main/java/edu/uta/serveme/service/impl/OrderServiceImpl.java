@@ -36,7 +36,9 @@ public class OrderServiceImpl implements OrderService {
 
         pointCal(order, Constant.POINT_PLACE_ORDER, 10);
 
-        fcmService.sendNotification(order.getVendorId(), "New Order", "You have a new order#" + order.getId());
+        if(order.getStatus() == Constant.ORDER_STATUS_NOT_ACCEPTED) {
+            fcmService.sendNotification(order.getVendorId(), "New Order", "You have a new order#" + order.getId());
+        }
 
         return order.getId();
     }
