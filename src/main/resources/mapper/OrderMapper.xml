@@ -6,7 +6,9 @@
     <result column="customer_id" jdbcType="INTEGER" property="customerId" />
     <result column="vendor_id" jdbcType="INTEGER" property="vendorId" />
     <result column="service_id" jdbcType="VARCHAR" property="serviceId" />
+    <result column="service_type" jdbcType="VARCHAR" property="serviceType" />
     <result column="address_id" jdbcType="INTEGER" property="addressId" />
+    <result column="description" jdbcType="VARCHAR" property="description" />
     <result column="price" jdbcType="DECIMAL" property="price" />
     <result column="date_start" jdbcType="TIMESTAMP" property="dateStart" />
     <result column="date_end" jdbcType="TIMESTAMP" property="dateEnd" />
@@ -17,7 +19,6 @@
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
   </resultMap>
   <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="edu.uta.serveme.entity.Order">
-    <result column="type" jdbcType="VARCHAR" property="serviceType" />
     <result column="customer_name" jdbcType="VARCHAR" property="customerName" />
     <result column="customer_phone" jdbcType="VARCHAR" property="customerPhone" />
     <result column="address" jdbcType="VARCHAR" property="address" />
@@ -26,11 +27,9 @@
     <result column="star" jdbcType="INTEGER" property="star" />
   </resultMap>
   <sql id="Base_Column_List">
-    `order`.id, `order`.customer_id, `order`.vendor_id, `order`.service_id, `order`.address_id, `order`.price, `order`.date_start,
-    `order`.date_end, `order`.status, `order`.create_time, `order`.update_time, `order`.cost_no_off, `order`.cost_off
-  </sql>
-  <sql id="Blob_Column_List">
-    service.type
+    `order`.id, `order`.customer_id, `order`.vendor_id, `order`.service_id, `order`.service_type, `order`.address_id,
+    `order`.price, `order`.date_start, `order`.date_end, `order`.status, `order`.create_time, `order`.update_time,
+    `order`.cost_no_off, `order`.cost_off, `order`.description
   </sql>
   <sql id="Customer_Column_List">
     customer.customer_name,
@@ -47,12 +46,10 @@
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
     select
     <include refid="Base_Column_List" />,
-    <include refid="Blob_Column_List" />,
     <include refid="Customer_Column_List" />,
     <include refid="Vendor_Column_List" />,
     <include refid="Review_Column_List" />
     FROM
-    service,
     `order`
     LEFT JOIN (
     SELECT
@@ -90,18 +87,15 @@
     `order` LEFT JOIN review ON `order`.id = review.order_id
     ) AS r ON `order`.id = r.id
     WHERE
-    `order`.service_id = service.id
-    and `order`.id = #{id,jdbcType=INTEGER}
+    `order`.id = #{id,jdbcType=INTEGER}
   </select>
   <select id="findOrderBySelective" parameterType="edu.uta.serveme.entity.Order" resultMap="ResultMapWithBLOBs">
     select
     <include refid="Base_Column_List" />,
-    <include refid="Blob_Column_List" />,
     <include refid="Customer_Column_List" />,
     <include refid="Vendor_Column_List" />,
     <include refid="Review_Column_List" />
     FROM
-    service,
     `order`
     LEFT JOIN (
     SELECT
@@ -139,14 +133,14 @@
     `order` LEFT JOIN review ON `order`.id = review.order_id
     ) AS r ON `order`.id = r.id
     WHERE
-    `order`.service_id = service.id
+    1 = 1
     <if test="customerId != null">
       and `order`.customer_id = #{customerId, jdbcType=INTEGER}
     </if>
     <if test="vendorId != null">
       and `order`.vendor_id = #{vendorId, jdbcType=INTEGER}
     </if>
-    order by `order`.create_time desc
+    `order` by `order`.create_time desc
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from `order`
@@ -157,15 +151,15 @@
       SELECT LAST_INSERT_ID()
     </selectKey>
     insert into `order` (customer_id, vendor_id, service_id,
-      address_id, price, date_start,
-      date_end, cost_no_off, cost_off, 
-      status, create_time, update_time
-      )
+      service_type, address_id, description, 
+      price, date_start, date_end, 
+      cost_no_off, cost_off, status, 
+      create_time, update_time)
     values (#{customerId,jdbcType=INTEGER}, #{vendorId,jdbcType=INTEGER}, #{serviceId,jdbcType=VARCHAR}, 
-      #{addressId,jdbcType=INTEGER}, #{price,jdbcType=DECIMAL}, #{dateStart,jdbcType=TIMESTAMP},
-      #{dateEnd,jdbcType=TIMESTAMP}, #{costNoOff,jdbcType=DECIMAL}, #{costOff,jdbcType=DECIMAL}, 
-      #{status,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}
-      )
+      #{serviceType,jdbcType=VARCHAR}, #{addressId,jdbcType=INTEGER}, #{description,jdbcType=VARCHAR}, 
+      #{price,jdbcType=DECIMAL}, #{dateStart,jdbcType=TIMESTAMP}, #{dateEnd,jdbcType=TIMESTAMP}, 
+      #{costNoOff,jdbcType=DECIMAL}, #{costOff,jdbcType=DECIMAL}, #{status,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="edu.uta.serveme.entity.Order">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
@@ -182,8 +176,14 @@
       <if test="serviceId != null">
         service_id,
       </if>
+      <if test="serviceType != null">
+        service_type,
+      </if>
       <if test="addressId != null">
         address_id,
+      </if>
+      <if test="description != null">
+        description,
       </if>
       <if test="price != null">
         price,
@@ -220,8 +220,14 @@
       <if test="serviceId != null">
         #{serviceId,jdbcType=VARCHAR},
       </if>
+      <if test="serviceType != null">
+        #{serviceType,jdbcType=VARCHAR},
+      </if>
       <if test="addressId != null">
         #{addressId,jdbcType=INTEGER},
+      </if>
+      <if test="description != null">
+        #{description,jdbcType=VARCHAR},
       </if>
       <if test="price != null">
         #{price,jdbcType=DECIMAL},
@@ -261,8 +267,14 @@
       <if test="serviceId != null">
         service_id = #{serviceId,jdbcType=VARCHAR},
       </if>
+      <if test="serviceType != null">
+        service_type = #{serviceType,jdbcType=VARCHAR},
+      </if>
       <if test="addressId != null">
         address_id = #{addressId,jdbcType=INTEGER},
+      </if>
+      <if test="description != null">
+        description = #{description,jdbcType=VARCHAR},
       </if>
       <if test="price != null">
         price = #{price,jdbcType=DECIMAL},
@@ -296,7 +308,9 @@
     set customer_id = #{customerId,jdbcType=INTEGER},
       vendor_id = #{vendorId,jdbcType=INTEGER},
       service_id = #{serviceId,jdbcType=VARCHAR},
+      service_type = #{serviceType,jdbcType=VARCHAR},
       address_id = #{addressId,jdbcType=INTEGER},
+      description = #{description,jdbcType=VARCHAR},
       price = #{price,jdbcType=DECIMAL},
       date_start = #{dateStart,jdbcType=TIMESTAMP},
       date_end = #{dateEnd,jdbcType=TIMESTAMP},

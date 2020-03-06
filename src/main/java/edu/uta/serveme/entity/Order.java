@@ -23,6 +23,8 @@ public class Order implements Serializable {
 
     private String serviceType;
 
+    private String description;
+
     private Integer addressId;
 
     private String address;
@@ -46,6 +48,14 @@ public class Order implements Serializable {
     private Date updateTime;
 
     private static final long serialVersionUID = 1L;
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
     public Integer getAddressId() {
         return addressId;
