@@ -47,7 +47,6 @@ public class OrderController {
     @PostMapping(value = "/insert")
     public BaseResponse<Integer> insertOrder(@RequestBody Order order) {
 
-        order.setStatus(Constant.ORDER_STATUS_NOT_ACCEPTED);
         return new ResultResponse<>(orderService.insertOrder(order));
     }
 
