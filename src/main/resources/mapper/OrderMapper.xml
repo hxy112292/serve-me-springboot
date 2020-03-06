@@ -177,7 +177,7 @@
     WHERE
     `order`.city = service.city
     AND `order`.service_type = service.type
-    AND `order`.STATUS = "BIDING"
+    AND `order`.STATUS = "BIDDING"
     AND `service`.vendor_id = #{vendorId, jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
