@@ -1,6 +1,7 @@
 package edu.uta.serveme.controller;
 
 import com.google.common.base.Preconditions;
+import com.sun.org.apache.xpath.internal.operations.Or;
 import edu.uta.serveme.base.BaseResponse;
 import edu.uta.serveme.base.ResultResponse;
 import edu.uta.serveme.constant.Constant;
@@ -40,6 +41,17 @@ public class OrderController {
 
         Order order = new Order();
         order.setVendorId(vendorId);
+
+        return new ResultResponse<>(orderService.findOrderBySelective(order));
+    }
+
+    @GetMapping(value = "/findBidByVendor")
+    public BaseResponse<List<Order>> findBidByVendor(@RequestParam("city") String city, @RequestParam("serviceType") String serviceType) {
+
+        Order order = new Order();
+        order.setCity(city);
+        order.setServiceType(serviceType);
+        order.setStatus(Constant.ORDER_STATUS_BIDING);
 
         return new ResultResponse<>(orderService.findOrderBySelective(order));
     }

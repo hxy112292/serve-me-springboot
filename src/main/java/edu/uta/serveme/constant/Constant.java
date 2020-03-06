@@ -23,6 +23,7 @@ public class Constant {
     public static final String UID = "uid";
 
     public static final String ORDER_STATUS_NOT_ACCEPTED = "NOT_ACCEPTED";
+    public static final String ORDER_STATUS_BIDING = "BIDING";
     public static final String ORDER_STATUS_PROCESSING = "PROCESSING";
     public static final String ORDER_STATUS_CANCELED = "CANCELED";
     public static final String ORDER_STATUS_FINISHED = "FINISHED";
