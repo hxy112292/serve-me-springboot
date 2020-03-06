@@ -154,7 +154,9 @@
   </select>
   <select id="findBidByVendor" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
     SELECT
-    <include refid="Base_Column_List" />,
+    `order`.id, `order`.customer_id, `order`.vendor_id, service.id as service_id, `order`.service_type, `order`.address_id,
+    `order`.price, `order`.date_start, `order`.date_end, `order`.status, `order`.create_time, `order`.update_time,
+    `order`.cost_no_off, `order`.cost_off, `order`.description, `order`.city,
     <include refid="Customer_Column_List" />
     FROM
     service,
