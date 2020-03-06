@@ -134,23 +134,23 @@
     `order` LEFT JOIN review ON `order`.id = review.order_id
     ) AS r ON `order`.id = r.id
     WHERE
-    1 = 1
+    `order`.status != 'BIDDING'
     <if test="customerId != null">
       and `order`.customer_id = #{customerId, jdbcType=INTEGER}
     </if>
     <if test="vendorId != null">
       and `order`.vendor_id = #{vendorId, jdbcType=INTEGER}
     </if>
-    <if test="status != null">
-      and `order`.status = #{status, jdbcType=VARCHAR}
-    </if>
-    <if test="city != null">
-      and `order`.city = #{city, jdbcType=VARCHAR}
-    </if>
-    <if test="serviceType != null">
-      and `order`.service_type = #{serviceType, jdbcType=VARCHAR}
-    </if>
     order by `order`.create_time desc
+  </select>
+  <select id="findBidByCustomer" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+    SELECT
+    <include refid="Base_Column_List" />
+    FROM
+    `order`
+    WHERE
+    `order`.status = 'BIDDING'
+    and `order`.customer_id = #{customerId, jdbcType=INTEGER}
   </select>
   <select id="findBidByVendor" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
     SELECT

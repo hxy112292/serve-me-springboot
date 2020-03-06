@@ -22,7 +22,7 @@ public class Constant {
     public static final String ROLE = "role";
     public static final String UID = "uid";
 
-    public static final String ORDER_STATUS_NOT_ACCEPTED = "NOT_ACCEPTED";
+    public static final String ORDER_STATUS_NOT_STARTED = "NOT_STARTED";
     public static final String ORDER_STATUS_BIDDING = "BIDDING";
     public static final String ORDER_STATUS_PROCESSING = "PROCESSING";
     public static final String ORDER_STATUS_CANCELED = "CANCELED";

@@ -36,8 +36,8 @@ public class OrderServiceImpl implements OrderService {
 
         pointCal(order, Constant.POINT_PLACE_ORDER, 10);
 
-        if(order.getStatus() == Constant.ORDER_STATUS_NOT_ACCEPTED) {
-            fcmService.sendNotification(order.getVendorId(), "New Order", "You have a new order#" + order.getId());
+        if(order.getStatus() == Constant.ORDER_STATUS_NOT_STARTED) {
+            fcmService.sendNotification(order.getVendorId(), "New Order", "You have a order to start#" + order.getId());
         }
 
         return order.getId();
@@ -95,5 +95,10 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public List<Order> findBidByVendor(int vendorId) {
         return orderMapper.findBidByVendor(vendorId);
+    }
+
+    @Override
+    public List<Order> findBidByCustomer(int customerId) {
+        return orderMapper.findBidByCustomer(customerId);
     }
 }

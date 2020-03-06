@@ -45,6 +45,12 @@ public class OrderController {
         return new ResultResponse<>(orderService.findOrderBySelective(order));
     }
 
+    @GetMapping(value = "/findBidByCustomer")
+    public BaseResponse<List<Order>> findBidByCustomer(@RequestParam("customerId") Integer customerId) {
+
+        return new ResultResponse<>(orderService.findBidByCustomer(customerId));
+    }
+
     @GetMapping(value = "/findBidByVendor")
     public BaseResponse<List<Order>> findBidByVendor(@RequestParam("vendorId") Integer vendorId) {
 

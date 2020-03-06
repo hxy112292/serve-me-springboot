@@ -25,4 +25,6 @@ public interface OrderMapper {
     List<Order> findOrderBySelective(Order order);
 
     List<Order> findBidByVendor(int vendorId);
+
+    List<Order> findBidByCustomer(int customerId);
 }

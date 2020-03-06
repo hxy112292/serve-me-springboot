@@ -20,4 +20,6 @@ public interface OrderService {
     Order findOrderById(int id);
 
     List<Order> findBidByVendor(int vendorId);
+
+    List<Order> findBidByCustomer(int customerId);
 }
