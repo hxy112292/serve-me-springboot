@@ -29,6 +29,8 @@ public class Order implements Serializable {
 
     private String address;
 
+    private String city;
+
     private BigDecimal price;
 
     private Date dateStart;
@@ -48,6 +50,14 @@ public class Order implements Serializable {
     private Date updateTime;
 
     private static final long serialVersionUID = 1L;
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
 
     public String getDescription() {
         return description;
