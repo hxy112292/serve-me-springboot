@@ -134,7 +134,7 @@
     `order` LEFT JOIN review ON `order`.id = review.order_id
     ) AS r ON `order`.id = r.id
     WHERE
-    `order`.status != 'BIDDING'
+    1 = 1
     <if test="customerId != null">
       and `order`.customer_id = #{customerId, jdbcType=INTEGER}
     </if>
