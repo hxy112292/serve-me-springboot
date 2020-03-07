@@ -11,6 +11,8 @@ public interface AddressService {
 
     List<Address> selectBySelective(Address address);
 
+    Address findById(int id);
+
     int updateAddress(Address address);
 
     int insertAddress(Address address);

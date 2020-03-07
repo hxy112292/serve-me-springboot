@@ -28,6 +28,11 @@ public class AddressController {
         return new ResultResponse<>(addressService.selectBySelective(address));
     }
 
+    @GetMapping(value = "/findByAddressId")
+    public BaseResponse<Address> findByAddressId(@RequestParam int id) {
+        return new ResultResponse<>(addressService.findById(id));
+    }
+
     @PostMapping(value = "/insertAddress")
     public BaseResponse<Integer> insertAddress(@RequestBody Address address) {
 
