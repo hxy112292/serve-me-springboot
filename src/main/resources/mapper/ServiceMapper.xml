@@ -17,7 +17,7 @@
     <result column="order_total" jdbcType="INTEGER" property="orderTotal" />
   </resultMap>
   <sql id="Base_Column_List">
-    service.id, service.type, service.vendor_id, service.city
+    service.id, service.type, service.vendor_id, service.city, service.price
   </sql>
   <sql id="Vendor_Column_List">
     `user`.username,`user`.phone, `user`.email, IFNULL(r.star_total, 5) as star
@@ -51,7 +51,12 @@
   </select>
   <select id="findVendorByService" parameterType="edu.uta.serveme.entity.Service" resultMap="VendorMap">
     select
-    <include refid="Base_Column_List" />,
+    <if test="orderId != null">
+      service.id, service.type, service.vendor_id, service.city,
+    </if>
+    <if test="orderId == null">
+      <include refid="Base_Column_List" />,
+    </if>
     <include refid="Vendor_Column_List" />,
     <include refid="Order_Column_List" />,
     <include refid="Bid_Column_List"/>
