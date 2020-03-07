@@ -96,7 +96,7 @@
     bid,
     service
     WHERE
-    bid.order_id = #{orderId, jdbcType=INTEGER})
+    bid.order_id = #{orderId, jdbcType=INTEGER}
     GROUP BY
     bid.service_id
     ) AS b ON service.id = b.service_id
