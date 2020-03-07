@@ -88,6 +88,7 @@
     GROUP BY
     `order`.service_id
     ) AS o ON service.id = o.service_id
+    <if test="orderId != null">
     LEFT JOIN (
     SELECT
     bid.service_id,
@@ -96,10 +97,11 @@
     bid,
     service
     WHERE
-    bid.service_id = service.id
+    bid.order_id = #{orderId, jdbcType=INTEGER})
     GROUP BY
     bid.service_id
     ) AS b ON service.id = b.service_id
+    </if>
     WHERE 1 = 1
     <if test="type != null">
       and service.type = #{type, jdbcType=VARCHAR}
