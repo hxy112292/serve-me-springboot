@@ -20,9 +20,13 @@ public class ServiceController {
     private final ServeService serveService;
 
     @GetMapping(value = "/searchVendor")
-    public BaseResponse<List<Service>> searchVendor(@RequestParam(value = "city", required = false) String city, @RequestParam("type") String type, @RequestParam(value = "vendorId", required = false) Integer vendorId) {
+    public BaseResponse<List<Service>> searchVendor(@RequestParam(value = "city", required = false) String city,
+                                                    @RequestParam("type") String type,
+                                                    @RequestParam(value = "vendorId", required = false) Integer vendorId,
+                                                    @RequestParam(value = "orderId", required = false) Integer orderId) {
 
         Service service = new Service();
+        service.setOrderId(orderId);
         service.setCity(city);
         service.setType(type);
         service.setVendorId(vendorId);

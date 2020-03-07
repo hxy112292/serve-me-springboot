@@ -24,7 +24,17 @@ public class Service implements Serializable {
 
     private Integer orderTotal;
 
+    private Integer orderId;
+
     private static final long serialVersionUID = 1L;
+
+    public Integer getOrderId() {
+        return orderId;
+    }
+
+    public void setOrderId(Integer orderId) {
+        this.orderId = orderId;
+    }
 
     public Integer getOrderTotal() {
         return orderTotal;

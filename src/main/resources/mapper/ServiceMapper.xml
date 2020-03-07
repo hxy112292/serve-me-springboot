@@ -13,6 +13,7 @@
     <result column="star" jdbcType="INTEGER" property="star" />
     <result column="phone" jdbcType="VARCHAR" property="phone" />
     <result column="email" jdbcType="VARCHAR" property="email" />
+    <result column="order_id" jdbcType="INTEGER" property="orderId" />
     <result column="order_total" jdbcType="INTEGER" property="orderTotal" />
   </resultMap>
   <sql id="Base_Column_List">
@@ -89,6 +90,9 @@
       and service.vendor_id = #{vendorId, jdbcType=INTEGER}
     </if>
     AND service.vendor_id = `user`.id
+    <if test="orderId != null">
+      and service.vendor_id in (select bid.vendor_id from bid where bid.order_id = #{orderId, jdbcType=INTEGER})
+    </if>
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from service
