@@ -26,7 +26,7 @@
     IFNULL( o.order_total, 0 ) AS order_total
   </sql>
   <sql id="Bid_Column_List">
-    b.price
+    service.id, service.type, service.vendor_id, service.city, b.price
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select
@@ -52,14 +52,13 @@
   <select id="findVendorByService" parameterType="edu.uta.serveme.entity.Service" resultMap="VendorMap">
     select
     <if test="orderId != null">
-      service.id, service.type, service.vendor_id, service.city,
+      <include refid="Bid_Column_List"/>,
     </if>
     <if test="orderId == null">
       <include refid="Base_Column_List" />,
     </if>
     <include refid="Vendor_Column_List" />,
-    <include refid="Order_Column_List" />,
-    <include refid="Bid_Column_List"/>
+    <include refid="Order_Column_List" />
     FROM
     `user`,
     service
