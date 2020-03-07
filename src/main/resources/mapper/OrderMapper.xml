@@ -145,9 +145,25 @@
   </select>
   <select id="findBidByCustomer" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
     SELECT
-    <include refid="Base_Column_List" />
+    <include refid="Base_Column_List" />,
+    <include refid="Customer_Column_List" />
     FROM
     `order`
+    LEFT JOIN (
+    SELECT
+    `address`.id AS address_id,
+    `address`.user_id,
+    `address`.customer_name,
+    `address`.phone,
+    `address`.address
+    FROM
+    `address`,
+    `order`
+    WHERE
+    `address`.id = `order`.address_id
+    GROUP BY
+    `address`.id
+    ) AS customer ON `order`.address_id = customer.address_id
     WHERE
     `order`.status = 'BIDDING'
     and `order`.customer_id = #{customerId, jdbcType=INTEGER}
