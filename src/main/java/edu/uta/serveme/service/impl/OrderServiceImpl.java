@@ -55,8 +55,10 @@ public class OrderServiceImpl implements OrderService {
         if(order.getStatus() != null) {
             if(order.getStatus().equals(Constant.ORDER_STATUS_CANCELED)) {
                 pointCal(order, Constant.POINT_CANCEL_ORDER, -10);
-                fcmService.sendNotification(order.getVendorId(), "Order Cancel", "Your order#" + order.getId()
-                        + " has been canceled");
+                if(findOrderById(order.getId()).getStatus().equals(Constant.ORDER_STATUS_NOT_STARTED)) {
+                    fcmService.sendNotification(order.getVendorId(), "Order Cancel", "Your order#" + order.getId()
+                            + " has been canceled");
+                }
                 fcmService.sendNotification(order.getCustomerId(), "Order Cancel", "Your order#" + order.getId()
                         + " has been canceled");
             } else if(order.getStatus().equals(Constant.ORDER_STATUS_PROCESSING)) {
