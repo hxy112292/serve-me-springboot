@@ -36,7 +36,7 @@ public class OrderServiceImpl implements OrderService {
 
         pointCal(order, Constant.POINT_PLACE_ORDER, 10);
 
-        if(order.getStatus() == Constant.ORDER_STATUS_NOT_STARTED) {
+        if(order.getStatus().equals(Constant.ORDER_STATUS_NOT_STARTED)) {
             fcmService.sendNotification(order.getVendorId(), "New Order", "You have a order to start#" + order.getId());
         }
 
@@ -62,8 +62,8 @@ public class OrderServiceImpl implements OrderService {
                 fcmService.sendNotification(order.getCustomerId(), "Order Cancel", "Your order#" + order.getId()
                         + " has been canceled");
             } else if(order.getStatus().equals(Constant.ORDER_STATUS_PROCESSING)) {
-                fcmService.sendNotification(order.getCustomerId(), "Order Accepted", "Your order#" + order.getId()
-                        + " has been accepted");
+                fcmService.sendNotification(order.getCustomerId(), "Order Start", "Your order#" + order.getId()
+                        + " has started");
             } else if(order.getStatus().equals(Constant.ORDER_STATUS_FINISHED)) {
                 fcmService.sendNotification(order.getCustomerId(), "Order Finished", "Your order#" + order.getId()
                         + " has been finished");
